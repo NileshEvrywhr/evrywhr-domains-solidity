@@ -28,11 +28,19 @@ contract Domains is ERC721URIStorage {
   mapping(string => string) public records;
   mapping (uint => string) public names;
 
+  error Unauthorized();
+  error AlreadyRegistered();
+  error InvalidName(string name);
+
   constructor(string memory _tld) payable ERC721("Hacker Name Service", "HNS") {
       owner = payable(msg.sender);
       tld = _tld;
       // console.log("THIS IS A DOMAINS CONTRACT. BY HACKERS. FOR HACKERS.");
       console.log("%s name service deployed", _tld);
+  }
+
+  function valid(string calldata name) public pure returns(bool) {
+    return StringUtils.strlen(name) >= 3 && StringUtils.strlen(name) <= 10;
   }
 
   // price of domain based on length
@@ -50,6 +58,8 @@ contract Domains is ERC721URIStorage {
 
   // adds domain to user address in mapping
   function register(string calldata name) public payable {
+      // using custom errors like these
+      if (!valid(name)) revert InvalidName(name);
       require(domains[name] == address(0));
       
       uint _price = price(name);
@@ -81,9 +91,9 @@ contract Domains is ERC721URIStorage {
 
       string memory finalTokenUri = string( abi.encodePacked("data:application/json;base64,", json));
 
-      console.log("\n--------------------------------------------------------");
-      console.log("Final tokenURI", finalTokenUri);
-      console.log("--------------------------------------------------------\n");
+      // console.log("\n--------------------------------------------------------");
+      // console.log("Final tokenURI", finalTokenUri);
+      // console.log("--------------------------------------------------------\n");
 
       // minsts the NFT to newRecordId
       _safeMint(msg.sender, newRecordId);
