@@ -15,6 +15,7 @@
         // stores Ids that make NFTs unique 
         Counters.Counter private _tokenIds;
 
+        address payable public owner;
         string public tld;
 
         // NFT images on chain as SVGs
@@ -28,6 +29,7 @@
 
 
         constructor(string memory _tld) payable ERC721("Hacker Name Service", "HNS") {
+            owner = payable(msg.sender);
             tld = _tld;
             // console.log("THIS IS A DOMAINS CONTRACT. BY HACKERS. FOR HACKERS.");
             console.log("%s name service deployed", _tld);
@@ -108,6 +110,22 @@
         function getRecord(string calldata name) public view returns(string memory) {
             return records[name];
         }
+
+        modifier onlyOwner() {
+          require(isOwner());
+          _;
+        }
+
+        function isOwner() public view returns (bool) {
+          return msg.sender == owner;
+        }
+
+        function withdraw() public onlyOwner {
+          uint amount = address(this).balance;
+          
+          (bool success, ) = msg.sender.call{value: amount}("");
+          require(success, "Failed to withdraw Matic");
+        } 
 
 
     }
