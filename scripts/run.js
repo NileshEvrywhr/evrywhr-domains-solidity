@@ -37,8 +37,8 @@ const main = async () => {
     console.log("all domains array: ", dnames)
 
     // how much money is in here?
-    const balance = await hre.ethers.provider.getBalance(domainContract.address);
-    console.log("Contract balance:", hre.ethers.utils.formatEther(balance));
+    // const balance = await hre.ethers.provider.getBalance(domainContract.address);
+    // console.log("Contract balance:", hre.ethers.utils.formatEther(balance));
 
     // try {
     //   txn = await domainContract.connect(superCoder).withdraw();
@@ -54,18 +54,18 @@ const main = async () => {
     // txn = await domainContract.connect(randomPerson).setRecord("hacks", "personal web2 domain");
     // await txn.wait();
 
-    let ownerBalance = await hre.ethers.provider.getBalance(owner.address);
-    console.log("balance of owner before withdrawl:", hre.ethers.utils.formatEther(ownerBalance));
+    // let ownerBalance = await hre.ethers.provider.getBalance(owner.address);
+    // console.log("balance of owner before withdrawl:", hre.ethers.utils.formatEther(ownerBalance));
 
-    txn = await domainContract.connect(owner).withdraw();
-    await txn.wait();
+    // txn = await domainContract.connect(owner).withdraw();
+    // await txn.wait();
 
     // Fetch balance of contract & owner
-    const contractBalance = await hre.ethers.provider.getBalance(domainContract.address);
-    ownerBalance = await hre.ethers.provider.getBalance(owner.address);
+    // const contractBalance = await hre.ethers.provider.getBalance(domainContract.address);
+    // ownerBalance = await hre.ethers.provider.getBalance(owner.address);
 
-    console.log("Contract balance after withdrawal:", hre.ethers.utils.formatEther(contractBalance));
-    console.log("Balance of owner after withdrawal:", hre.ethers.utils.formatEther(ownerBalance));
+    // console.log("Contract balance after withdrawal:", hre.ethers.utils.formatEther(contractBalance));
+    // console.log("Balance of owner after withdrawal:", hre.ethers.utils.formatEther(ownerBalance));
 
   };
   
